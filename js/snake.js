@@ -14,6 +14,11 @@ var xFruit = 0;
 var yFruit = 0;
 var scoreElem;
 
+var synth = new Tone.Synth().toMaster();
+var synth2 = new Tone.Synth().toMaster();
+var backgroundColor = 0;
+var colorWheel = ['#00ff00', '#00bfff'];
+
 function setup() {
   scoreElem = createDiv('Score = 0');
   scoreElem.position(20, 20);
@@ -33,7 +38,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(backgroundColor);
   for (var i = 0; i < numSegments - 1; i++) {
     line(xCor[i], yCor[i], xCor[i + 1], yCor[i + 1]);
   }
@@ -93,6 +98,7 @@ function checkGameStatus() {
     noLoop();
     var scoreVal = parseInt(scoreElem.html().substring(8));
     scoreElem.html('Game ended! Your score was : ' + scoreVal);
+    synth.triggerAttackRelease('F2','8n');
   }
 }
 
@@ -124,6 +130,8 @@ function checkForFruit() {
     yCor.unshift(yCor[0]);
     numSegments++;
     updateFruitCoordinates();
+    synth.triggerAttackRelease('C7','12n');
+    backgroundColor = colorWheel[Math.floor(Math.random() *2)];
   }
 }
 
@@ -143,21 +151,25 @@ function keyPressed() {
     case 37:
       if (direction != 'right') {
         direction = 'left';
+        synth2.triggerAttackRelease('E3','5n');
       }
       break;
     case 39:
       if (direction != 'left') {
         direction = 'right';
+        synth2.triggerAttackRelease('G5','6n');
       }
       break;
     case 38:
       if (direction != 'down') {
         direction = 'up';
+        synth2.triggerAttackRelease('A6','8n');
       }
       break;
     case 40:
       if (direction != 'up') {
         direction = 'down';
+        synth2.triggerAttackRelease('B7','10n');
       }
       break;
   }
